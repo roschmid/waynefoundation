@@ -13,7 +13,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-df = pd.read_excel('Data.xlsx')
+data = "https://github.com/roschmid/waynefoundation/raw/master/Data.xlsx"
+
+df = pd.read_excel(data)
 
 #Layout functions
 
