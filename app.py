@@ -39,7 +39,7 @@ def tabs_layout():
         dcc.Tab(label='GRAPH', value='tab-1', children=[
             get_ticker_graph()]),
         dcc.Tab(label='ANALYSIS', value='tab-2', children=[
-            dcc.Markdown("""We can enter some **text** to say something interesting.""")]),
+            get_stock_table()]),
         dcc.Tab(label="OTHER", value="tab-3", children=[
             dcc.Markdown("""We can enter some **text** to say something interesting.""")])
     ]),
@@ -57,6 +57,24 @@ def get_ticker_graph():
     ])
 
 ##TAB 2
+
+def get_stock_table():
+    return html.Div([
+    html.H2("Individual Stock Analysis"),
+    dcc.Input(value='', id='filter-input', placeholder='Search for Ticker...', debounce=False),
+    dash_table.DataTable(
+        id='datatable-paging',
+        columns=[
+            {"name": i, "id": i} for i in df.columns  # sorted(df.columns)
+        ],
+        page_current=0,
+        page_size=PAGE_SIZE,
+        page_action='custom',
+
+        sort_action='custom',
+        sort_mode='single',
+        sort_by=[]
+    )])
 
 #App Layout
 
@@ -116,6 +134,31 @@ def update_output(n_clicks, value):
             id="my-graph")
                     ])    
 
+##TAB 2
+
+@app.callback(
+    dash.dependencies.Output('datatable-paging', 'data'),
+    [dash.dependencies.Input('datatable-paging', 'page_current'),
+     dash.dependencies.Input('datatable-paging', 'page_size'),
+     dash.dependencies.Input('datatable-paging', 'sort_by'),
+     dash.dependencies.Input('filter-input', 'value')])
+def update_table(page_current, page_size, sort_by, filter_string):
+
+    # Filter
+    dff = df[df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
+    # Sort if necessary
+    if len(sort_by):
+        dff = dff.sort_values(
+            sort_by[0]['column_id'],
+            ascending=sort_by[0]['direction'] == 'asc',
+            inplace=False
+        )
+
+    return dff.iloc[
+           page_current * page_size:(page_current + 1) * page_size
+           ].to_dict('records')
+
+#Main
 
 if __name__ == '__main__':
     app.run_server(debug=True)
