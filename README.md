@@ -1,4 +1,4 @@
-# Wayne-Foundation-Project
+# Wayne Foundation Project
 
 A quick app for value investing analysis of the Chilean stock market.
 
