@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State
 import yfinance as yf
 import plotly.express as px
 import pandas as pd
+import dash_table
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
