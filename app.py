@@ -27,7 +27,9 @@ def title():
                      html.P(),
                      dcc.Markdown("""
 
-Basic information here. Perhaps use a Markdown for better text
+Basic information here. Perhaps use a Markdown for better text.
+
+- Created by Rafael Schmidt
 
 ---
 
@@ -54,7 +56,7 @@ def get_ticker_graph():
     return html.Div([
     html.H2("Historical Price Graph"),
     html.P(),
-    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search for Ticker Price..."), html.Button("Search", id="button")], className="rows"),
+    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."), html.Button("Search", id="button")], className="rows"),
     html.Div(id='output-container-button'),
     ])
 
