@@ -15,7 +15,7 @@ server = app.server
 
 data = "https://raw.githubusercontent.com/roschmid/waynefoundation/master/Data.csv"
 
-df = pd.read_csv(url, sep=",")
+df = pd.read_csv(data, sep=",")
 
 #Layout functions
 
