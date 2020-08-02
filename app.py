@@ -13,7 +13,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-data = "https://github.com/roschmid/waynefoundation/raw/master/Data.csv"
+data = "https://raw.githubusercontent.com/roschmid/waynefoundation/master/Data.csv"
 
 df = pd.read_csv(url, sep=",")
 
