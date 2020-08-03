@@ -22,14 +22,26 @@ PAGE_SIZE = 25
 #Layout functions
 
 def title():
-    return html.Div([html.H1("Wayne Foundation - Stock Analysis"),
+    return html.Div([html.H1("Wayne Foundation - Stock Market Workshop"),
                      dcc.Markdown("---"),
                      html.P(),
                      dcc.Markdown("""
 
-Basic information here. Perhaps use a Markdown for better text.
+Welcome to the Wayne Foundation's **Stock Market Workshop** (SMW),
+created by Rafael Schmidt.
 
-- Created by Rafael Schmidt
+> **What is the SMW?**
+
+The SMW is a place where you can analyze and prepare your personal portfolio
+to invest in Chilean stocks. 
+
+Wayne Foundation provides historical data on all of the stocks in the Chilean
+market, such as price, dividend yield, PE ratio, among others.
+
+Furthermore, you will be able to find information that is not
+available even in the Chilean Stock Exchange.
+
+For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). 
 
 ---
 
@@ -40,11 +52,11 @@ Basic information here. Perhaps use a Markdown for better text.
 def tabs_layout():
     return html.Div([
     dcc.Tabs(id="tabs", value='tab-1', children=[
-        dcc.Tab(label='GRAPH', value='tab-1', children=[
+        dcc.Tab(label='Historical Graph', value='tab-1', children=[
             get_ticker_graph()]),
-        dcc.Tab(label='ANALYSIS', value='tab-2', children=[
+        dcc.Tab(label='Stock Analysis', value='tab-2', children=[
             get_stock_table()]),
-        dcc.Tab(label="OTHER", value="tab-3", children=[
+        dcc.Tab(label="Other", value="tab-3", children=[
             dcc.Markdown("""We can enter some **text** to say something interesting.""")])
     ]),
     html.Div(id='tabs-content')
