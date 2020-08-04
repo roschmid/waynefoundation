@@ -90,7 +90,7 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
-- 4/08/2020: Incorporated the **"Price" column** in the Stock Analysis section
+- 4/08/2020: Added the **"Price" column** in the Stock Analysis section
 - 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
 
 #App Layout
