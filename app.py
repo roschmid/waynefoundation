@@ -26,25 +26,17 @@ def title():
                      dcc.Markdown("---"),
                      html.P(),
                      dcc.Markdown("""
-
 Welcome to the Wayne Foundation's **Stock Market Workshop** (SMW),
 created by Rafael Schmidt.
-
-> **What is the SMW?**
-
+> **What is the SMW?**\n
 The SMW is a place where you can analyze and prepare your personal portfolio
-to invest in Chilean stocks. 
-
+to invest in Chilean stocks.\n
 Wayne Foundation provides historical data on all of the stocks in the Chilean
-market, such as price, dividend yield, PE ratio, among others.
-
+market, such as price, dividend yield, PE ratio, among others.\n
 Furthermore, you will be able to find information that is not
-available even in the Chilean Stock Exchange.
-
-For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). 
-
+available even in the Chilean Stock Exchange.\n
+For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). \n
 ---
-
 """)
                      ])
 
@@ -56,8 +48,8 @@ def tabs_layout():
             get_ticker_graph()]),
         dcc.Tab(label='Stock Analysis', value='tab-2', children=[
             get_stock_table()]),
-        dcc.Tab(label="Other", value="tab-3", children=[
-            dcc.Markdown("""We can enter some **text** to say something interesting.""")])
+        dcc.Tab(label="What's New?", value="tab-3", children=[
+            whats_new()])
     ]),
     html.Div(id='tabs-content')
 ])
@@ -91,6 +83,15 @@ def get_stock_table():
         sort_mode='single',
         sort_by=[]
     )])
+
+##TAB 3
+
+def whats_new():
+    return html.Div([
+    html.H2("What's New?"),
+    dcc.Markdown("""
+- 4/08/2020: Incorporated the **"Price" column** in the Stock Analysis section
+- 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
 
 #App Layout
 
@@ -178,10 +179,3 @@ def update_table(page_current, page_size, sort_by, filter_string):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-
-
-
-
