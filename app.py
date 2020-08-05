@@ -48,7 +48,8 @@ def tabs_layout():
             get_ticker_graph()]),
         dcc.Tab(label='Stock Analysis', value='tab-2', children=[
             get_stock_table()]),
-        dcc.Tab(label="What's New?", value="tab-3", children=[
+        dcc.Tab(label="Wayne Academy", value="tab-3", children=[wayne_academy()]),
+        dcc.Tab(label="What's New?", value="tab-4", children=[
             whats_new()])
     ]),
     html.Div(id='tabs-content')
@@ -69,8 +70,22 @@ def get_ticker_graph():
 def get_stock_table():
     return html.Div([
     html.H2("Individual Stock Analysis"),
-    dcc.Input(value='', id='filter-input', placeholder='Search for Ticker...', debounce=False),
-    dash_table.DataTable(
+    dcc.Markdown("""---"""),
+    html.Div([html.P(children="Price-Earning Ratio:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='pe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='pe-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    html.Div([html.P(children="Book Value Ratio:", id='bv-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='bv-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    dcc.Markdown("""---"""),
+    html.Div([
+        html.P(""),
+        dcc.Input(value='', id='filter-input', placeholder='Search for Ticker...', debounce=False),
+        dash_table.DataTable(
         id='datatable-paging',
         columns=[
             {"name": i, "id": i} for i in df.columns  # sorted(df.columns)
@@ -82,14 +97,23 @@ def get_stock_table():
         sort_action='custom',
         sort_mode='single',
         sort_by=[]
-    )])
+    )])])
 
 ##TAB 3
+
+def wayne_academy():
+    return html.Div([
+        html.H2("Wayne Academy"),
+        dcc.Markdown("""
+Here you will learn the most important value concepts to evaluate your investments and portfolios""")])
+
+##TAB 4
 
 def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
+- 5/08/2020: Added **Price/Earning** and **Book Value** filters to begin with your portfolio analysis!
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
 - 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
 
@@ -154,24 +178,31 @@ def update_output(n_clicks, value):
 ##TAB 2
 
 @app.callback(
-    dash.dependencies.Output('datatable-paging', 'data'),
-    [dash.dependencies.Input('datatable-paging', 'page_current'),
-     dash.dependencies.Input('datatable-paging', 'page_size'),
-     dash.dependencies.Input('datatable-paging', 'sort_by'),
-     dash.dependencies.Input('filter-input', 'value')])
-def update_table(page_current, page_size, sort_by, filter_string):
+    Output('datatable-paging', 'data'),
+    [Input('datatable-paging', 'page_current'),
+     Input('datatable-paging', 'page_size'),
+     Input('datatable-paging', 'sort_by'),
+     Input('pe-min', 'value'),
+     Input("pe-max", "value"),
+     Input("bv-min", "value"),
+     Input("bv-max", "value"),
+     Input("filter-input", "value")])
+def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string):
 
     # Filter
-    dff = df[df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
+
+    num_df = df[(df["PE"].between(pe_min, pe_max)) & (df["BV"].between(bv_min, bv_max))] #to use OR, change "&" for "|"
+    final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
+    
     # Sort if necessary
     if len(sort_by):
-        dff = dff.sort_values(
+        final_df = final_df.sort_values(
             sort_by[0]['column_id'],
             ascending=sort_by[0]['direction'] == 'asc',
             inplace=False
         )
 
-    return dff.iloc[
+    return final_df.iloc[
            page_current * page_size:(page_current + 1) * page_size
            ].to_dict('records')
 
