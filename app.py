@@ -81,6 +81,8 @@ def get_stock_table():
               html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
               dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
+    html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
     dcc.Markdown("""---"""),
     html.Div([
         html.P(""),
@@ -113,7 +115,7 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
-- 5/08/2020: Added **Price/Earning** and **Book Value** filters to begin with your portfolio analysis!
+- 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis. 
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
 - 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
 
@@ -186,12 +188,17 @@ def update_output(n_clicks, value):
      Input("pe-max", "value"),
      Input("bv-min", "value"),
      Input("bv-max", "value"),
-     Input("filter-input", "value")])
-def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string):
+     Input("filter-input", "value"),
+     Input("unint-div", "value")])
+def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div):
 
     # Filter
 
-    num_df = df[(df["PE"].between(pe_min, pe_max)) & (df["BV"].between(bv_min, bv_max))] #to use OR, change "&" for "|"
+    max_div = df["UNINT. DIV."].max()
+
+    num_df = df[(df["PE"].between(pe_min, pe_max)) &
+                (df["BV"].between(bv_min, bv_max)) &
+                (df["UNINT. DIV."].between(min_unint_div, max_div))] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
     
     # Sort if necessary
