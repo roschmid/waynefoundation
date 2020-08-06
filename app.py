@@ -22,16 +22,16 @@ PAGE_SIZE = 25
 #Layout functions
 
 def title():
-    return html.Div([html.H1("Wayne Foundation - Stock Market Workshop"),
+    return html.Div([html.H1("Orbis Investments - Stock Market Workshop"),
                      dcc.Markdown("---"),
                      html.P(),
                      dcc.Markdown("""
-Welcome to the Wayne Foundation's **Stock Market Workshop** (SMW),
+Welcome to the Orbis Investments' **Stock Market Workshop** (SMW),
 created by Rafael Schmidt.
 > **What is the SMW?**\n
 The SMW is a place where you can analyze and prepare your personal portfolio
 to invest in Chilean stocks.\n
-Wayne Foundation provides historical data on all of the stocks in the Chilean
+Orbis Investments provides historical data on all of the stocks in the Chilean
 market, such as price, dividend yield, PE ratio, among others.\n
 Furthermore, you will be able to find information that is not
 available even in the Chilean Stock Exchange.\n
@@ -48,7 +48,7 @@ def tabs_layout():
             get_ticker_graph()]),
         dcc.Tab(label='Stock Analysis', value='tab-2', children=[
             get_stock_table()]),
-        dcc.Tab(label="Wayne Academy", value="tab-3", children=[wayne_academy()]),
+        dcc.Tab(label="Orbis Academy", value="tab-3", children=[orbis_academy()]),
         dcc.Tab(label="What's New?", value="tab-4", children=[
             whats_new()])
     ]),
@@ -103,9 +103,9 @@ def get_stock_table():
 
 ##TAB 3
 
-def wayne_academy():
+def orbis_academy():
     return html.Div([
-        html.H2("Wayne Academy"),
+        html.H2("Orbis Academy"),
         dcc.Markdown("""
 Here you will learn the most important  concepts to evaluate your investments and portfolios from a **value investing** standpoint."""),
         html.Table([
@@ -124,10 +124,10 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
-- 6/08/2020: Introducing, the **Wayne Academy!**
+- 6/08/2020: Introducing, the **Orbis Academy!**
 - 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis. 
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
-- 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
+- 2/08/2020: **Official release** of the Orbis Investments' SMW!""")])
 
 #App Layout
 
