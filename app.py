@@ -107,7 +107,16 @@ def wayne_academy():
     return html.Div([
         html.H2("Wayne Academy"),
         dcc.Markdown("""
-Here you will learn the most important value concepts to evaluate your investments and portfolios""")])
+Here you will learn the most important  concepts to evaluate your investments and portfolios from a **value investing** standpoint."""),
+        html.Table([
+            html.Tr([html.Td(["Price/Earning Ratio:"], style={"fontWeight": "bold"}),
+                     html.Td("""The price-to-earnings ratio or P/E is one of the most widely-used stock analysis tools used by investors and analysts for determining stock valuation.""")]),
+            html.Tr([html.Td(["Book Value Ratio:"], style={"fontWeight": "bold"}),
+                     html.Td("""Companies use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value.
+It's calculated by dividing the company's stock price per share by its book value per share (BVPS).
+An asset's book value is equal to its carrying value on the balance sheet, and companies calculate it netting the asset against its accumulated depreciation.""")]),
+            ])
+        ])
 
 ##TAB 4
 
@@ -115,6 +124,7 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
+- 6/08/2020: Introducing, the **Wayne Academy!**
 - 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis. 
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
 - 2/08/2020: **Official release** of the Wayne Foundation's SMW!""")])
