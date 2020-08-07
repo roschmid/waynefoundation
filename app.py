@@ -10,12 +10,10 @@ import dash_table
 import dash_auth
 import json
 
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
-    print(USER_PASS)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -137,6 +135,7 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
+- 7/08/2020: Added password protection and new columns for Stock Analysis section.
 - 6/08/2020: Introducing, the **Orbis Academy!**
 - 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis. 
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
