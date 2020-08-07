@@ -7,10 +7,19 @@ import yfinance as yf
 import plotly.express as px
 import pandas as pd
 import dash_table
+import dash_auth
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
+USER_PASS = {
+    "DarkMarik": "Ellinia",
+    "Saji": "Henesys"}
+
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+auth = dash_auth.BasicAuth(
+    app,
+    USER_PASS)
 
 server = app.server
 
