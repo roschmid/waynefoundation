@@ -10,6 +10,7 @@ import dash_table
 import dash_auth
 import json
 
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 with open("usr.json", "r") as file:
