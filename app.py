@@ -11,6 +11,8 @@ import dash_auth
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
+#PASS THIS TO A FILE!
+
 USER_PASS = {
     "DarkMarik": "Ellinia",
     "Saji": "Henesys"}
