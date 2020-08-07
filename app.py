@@ -8,14 +8,13 @@ import plotly.express as px
 import pandas as pd
 import dash_table
 import dash_auth
+import json
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-#PASS THIS TO A FILE!
-
-USER_PASS = {
-    "DarkMarik": "Ellinia",
-    "Saji": "Henesys"}
+with open("usr.json", "r") as file:
+    USER_PASS = json.load(file)
+    print(USER_PASS)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
