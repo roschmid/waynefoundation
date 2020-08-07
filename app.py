@@ -16,6 +16,7 @@ with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = "Orbis Investments"
 
 auth = dash_auth.BasicAuth(
     app,
