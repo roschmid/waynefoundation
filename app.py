@@ -9,6 +9,7 @@ import pandas as pd
 import dash_table
 import dash_auth
 import json
+import numpy as np
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -93,6 +94,16 @@ def get_stock_table():
               ]),
     html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
+    html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
+                     dcc.Dropdown(
+                         id="ticker-dropdown",
+                         options=[
+                             {'label': i, 'value': i} for i in df["NEMO"].unique()
+                         ],
+                         multi=True,
+                         placeholder="Filter by Ticker...",
+                         style={"width":500}                         
+                         )]),
     dcc.Markdown("""---"""),
     html.Div([
         html.P(""),
@@ -136,6 +147,7 @@ def whats_new():
     return html.Div([
     html.H2("What's New?"),
     dcc.Markdown("""
+- 8/08/2020: Select your favorite stocks and compare!
 - 7/08/2020: Added password protection and new columns for Stock Analysis section.
 - 6/08/2020: Introducing, the **Orbis Academy!**
 - 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis. 
@@ -212,8 +224,9 @@ def update_output(n_clicks, value):
      Input("bv-min", "value"),
      Input("bv-max", "value"),
      Input("filter-input", "value"),
-     Input("unint-div", "value")])
-def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div):
+     Input("unint-div", "value"),
+     Input("ticker-dropdown", "value")])
+def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div, ticker_dropdown):
 
     # Filter
 
@@ -223,16 +236,21 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_ma
                 (df["BV"].between(bv_min, bv_max)) &
                 (df["UNINT. DIV."].between(min_unint_div, max_div))] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
-    
+
+    if ticker_dropdown is None:
+        filtered_df = final_df
+    else:
+        filtered_df = final_df[final_df["NEMO"].str.contains("|".join(ticker_dropdown))]
+
     # Sort if necessary
     if len(sort_by):
-        final_df = final_df.sort_values(
+        filtered_df = filtered_df.sort_values(
             sort_by[0]['column_id'],
             ascending=sort_by[0]['direction'] == 'asc',
             inplace=False
         )
 
-    return final_df.iloc[
+    return filtered_df.iloc[
            page_current * page_size:(page_current + 1) * page_size
            ].to_dict('records')
 
