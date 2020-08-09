@@ -62,7 +62,11 @@ def tabs_layout():
         dcc.Tab(label="Orbis Academy", value="tab-3", children=[orbis_academy()]),
         dcc.Tab(label="What's New?", value="tab-4", children=[
             whats_new()])
-    ]),
+    ],
+             colors={
+                 "border": '#d6d6d6',
+                 "primary": 'green',
+                 "background": '#f9f9f9', }),
     html.Div(id='tabs-content')
 ])
 
