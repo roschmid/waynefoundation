@@ -9,7 +9,7 @@ import pandas as pd
 import dash_table
 import dash_auth
 import json
-import numpy as np
+import numpy as np #
 
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
