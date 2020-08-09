@@ -1,3 +1,12 @@
+#NEXT STEPS:
+#0) MORE FILTERS (ROE, ROA, OP. MARGIN)
+#1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
+#1.1) ALTERNATIVELY, ALLOW USERS TO CREATE THEIR OWN PORTFOLIOS, BASED ON THEIR PREFERENCE (MORE OR LESS LIKE THE FILTERS)
+#2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
+#3) CREATE SPANISH/ENGLISH VERSION
+#4) GIT UPDATE STOCK INFO (Update .csv by parts)
+#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -10,6 +19,7 @@ import dash_table
 import dash_auth
 import json
 import numpy as np
+import dash_bootstrap_components as dbc
 
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
@@ -91,6 +101,14 @@ def get_stock_table():
     return html.Div([
     html.H2("Individual Stock Analysis"),
     dcc.Markdown("""---"""),
+    html.Div([
+        dbc.Button("Value Filters",
+                   id="value-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   ),
+        dbc.Collapse(
+            html.Div([
     html.Div([html.P(children="Price-Earning Ratio:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='pe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
@@ -102,7 +120,8 @@ def get_stock_table():
               dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
     html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
+              dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
+    id="value-collapse")]),
     html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
                      dcc.Dropdown(
                          id="ticker-dropdown",
@@ -170,6 +189,7 @@ def whats_new():
     html.H2("What's New?"),
     dcc.Markdown("""
 ---
+
 - 8/08/2020: Select your favorite stocks and compare!
 
 - 7/08/2020: Added password protection and new columns for Stock Analysis section.
@@ -281,6 +301,18 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_ma
     return filtered_df.iloc[
            page_current * page_size:(page_current + 1) * page_size
            ].to_dict('records')
+
+#Value Collapse
+
+@app.callback(
+    Output("value-collapse", "is_open"),
+    [Input("value-collapse-button", "n_clicks")],
+    [State("value-collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 #Main
 
