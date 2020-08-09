@@ -124,7 +124,13 @@ def get_stock_table():
 
         sort_action='custom',
         sort_mode='single',
-        sort_by=[]
+        sort_by=[],
+        css=[
+            {
+        'selector': 'table',
+        'rule': 'width: 98%;'
+        }
+],
     )])])
 
 ##TAB 3
