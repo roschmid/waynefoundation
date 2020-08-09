@@ -33,7 +33,7 @@ PAGE_SIZE = 25
 #Layout functions
 
 def title():
-    return html.Div([html.H1("Orbis InvestmentsA - Stock Market Workshop"),
+    return html.Div([html.H1("Orbis Investments - Stock Market Workshop"),
                      dcc.Markdown("---"),
                      html.P(),
                      dcc.Markdown("""
