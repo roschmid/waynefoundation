@@ -101,11 +101,15 @@ def get_stock_table():
     return html.Div([
     html.H2("Individual Stock Analysis"),
     dcc.Markdown("""---"""),
+
+#Value Filters
+    
     html.Div([
-        dbc.Button("Value Filters",
+        dbc.Button("⭳ Value Filters",
                    id="value-collapse-button",
                    className="mb-3",
                    color="primary",
+                   style={"width":"100%", "textAlign":"left"}
                    ),
         dbc.Collapse(
             html.Div([
@@ -122,6 +126,24 @@ def get_stock_table():
     html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
     id="value-collapse")]),
+
+#Ratio Filters
+
+    html.Div([
+        dbc.Button("⭳ Ratio Filters",
+                   id="ratio-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   style={"width":"100%", "textAlign":"left"}
+                   ),
+            dbc.Collapse(
+            html.Div([
+    html.Div([html.P(children="Price-Earning Ratioooo:", id='pe-labellll', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='pee-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='pee-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ])]),
+    id="ratio-collapse")]),
     html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
                      dcc.Dropdown(
                          id="ticker-dropdown",
@@ -308,6 +330,18 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_ma
     Output("value-collapse", "is_open"),
     [Input("value-collapse-button", "n_clicks")],
     [State("value-collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+#Ratio Collapse
+
+@app.callback(
+    Output("ratio-collapse", "is_open"),
+    [Input("ratio-collapse-button", "n_clicks")],
+    [State("ratio-collapse", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:
