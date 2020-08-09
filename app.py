@@ -11,7 +11,7 @@ import dash_auth
 import json
 import numpy as np
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
 with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
@@ -72,7 +72,12 @@ def get_ticker_graph():
     return html.Div([
     html.H2("Historical Price Graph"),
     html.P(),
-    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."), html.Button("Search", id="button")], className="rows"),
+    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
+              html.Button("Search", id="button", style={"backgroundColor": "white", 
+                                                        "color": "black", "border": "1px solid grey",
+                                                        "padding": "3px 38px",
+                                                        "textAlign": "center", "textDecoration": "none",
+                                                        "display": "inline-block", "fontSize": "16px"})], className="rows"),
     html.Div(id='output-container-button'),
     ])
 
@@ -130,14 +135,19 @@ def orbis_academy():
         dcc.Markdown("""
 Here you will learn the most important  concepts to evaluate your investments and portfolios from a **value investing** standpoint."""),
         html.Table([
-            html.Tr([html.Td(["Price/Earning Ratio:"], style={"fontWeight": "bold"}),
+            html.Tr([html.Td(["Price/Earning Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
                      html.Td("""The price-to-earnings ratio or P/E is one of the most widely-used stock analysis tools used by investors and analysts for determining stock valuation.
-The P/E Ratio can be viewed sa the number of years it takes for the company to earn back the price you pay for the stock. Recommended P/E Ratio < 15.""")]),
-            html.Tr([html.Td(["Book Value Ratio:"], style={"fontWeight": "bold"}),
+The P/E Ratio can be viewed sa the number of years it takes for the company to earn back the price you pay for the stock. Recommended P/E Ratio < 15.""",
+                             style={"borderBottom": "1px solid #ddd", "padding": "15px", "textAlign": "left"})]),
+            html.Tr([html.Td(["Book Value Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
                      html.Td("""Companies use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value.
 It's calculated by dividing the company's stock price per share by its book value per share (BVPS).
 An asset's book value is equal to its carrying value on the balance sheet, and companies calculate it netting the asset against its accumulated depreciation.
-Recommended B/V < 2.5""")]),
+Recommended B/V < 2.5""",
+                             style={"borderBottom": "1px solid #ddd", "padding": "15px", "textAlign": "left"})]),
+            html.Tr([html.Td(["Current Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
+                     html.Td("""The current ratio is a liquidity ratio that measures a company's ability to pay short-term obligations or those due within one year. Recommended ratio > 1.5""",
+                             style={"borderBottom": "1px solid #ddd", "padding": "15px", "textAlign": "left"})])
             ])
         ])
 
