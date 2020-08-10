@@ -19,6 +19,7 @@ import dash_auth
 import json
 import numpy as np
 import dash_bootstrap_components as dbc
+import urllib.parse
 
 
 #Opening variables
@@ -119,9 +120,6 @@ def get_ticker_graph():
 ##TAB 2
 
 def get_stock_table():
-
-
-
     
     return html.Div([
     html.H2("Individual Stock Analysis"),
@@ -225,10 +223,18 @@ def get_stock_table():
         css=[
             {
         'selector': 'table',
-        'rule': 'width: 80%;'
+        'rule': 'width: 100%;'
         },
 ],
-    )])])  
+    ),
+        html.A(
+            "Download Data",
+            id="download-link",
+            download="Orbis-Investments-Screener.csv",
+            href="",
+            style={"margin":"0px 0px 0px -15px"},
+            target="_blank")
+        ])])  
 
 ##TAB 3
 
@@ -434,6 +440,16 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
+#Download Data
+
+@app.callback(
+    Output('download-link', 'href'),
+    [Input('filter-input', 'value')])
+def update_download_link(filter_value):
+    csv_string = df.to_csv(index=False, encoding='utf-8')
+    csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+    return csv_string
 
 #Main
 
