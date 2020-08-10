@@ -5,7 +5,8 @@
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
 #3) CREATE SPANISH/ENGLISH VERSION
 #4) GIT UPDATE STOCK INFO (Update .csv by parts)
-#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
+#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.Imp
+#CLEAN CODE
 
 import dash
 import dash_core_components as dcc
@@ -127,23 +128,28 @@ def get_stock_table():
               dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
     id="value-collapse")]),
 
-#Ratio Filters
+#Return Ratio Filters
 
     html.Div([
-        dbc.Button("⭳ Ratio Filters",
-                   id="ratio-collapse-button",
+        dbc.Button("⭳ Return Ratio Filters",
+                   id="return-ratio-collapse-button",
                    className="mb-3",
                    color="primary",
                    style={"width":"100%", "textAlign":"left"}
                    ),
             dbc.Collapse(
             html.Div([
-    html.Div([html.P(children="Price-Earning Ratioooo:", id='pe-labellll', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='pee-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              dcc.Input(id='pee-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
-              ])]),
-    id="ratio-collapse")]),
+    html.Div([html.P(children="Return on Invested Capital (ROIC):", id='roic-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roic-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    html.Div([html.P(children="Return on Invested Equity (ROE):", id='roe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    html.Div([html.P(children="Operating Margin:", id='op-margin-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='op-margin-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    ]),
+    id="return-ratio-collapse")]),
     html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
                      dcc.Dropdown(
                          id="ticker-dropdown",
@@ -211,6 +217,8 @@ def whats_new():
     html.H2("What's New?"),
     dcc.Markdown("""
 ---
+
+- 9/08/2020: Improved UI
 
 - 8/08/2020: Select your favorite stocks and compare!
 
@@ -295,16 +303,20 @@ def update_output(n_clicks, value):
      Input("bv-max", "value"),
      Input("filter-input", "value"),
      Input("unint-div", "value"),
-     Input("ticker-dropdown", "value")])
-def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div, ticker_dropdown):
+     Input("ticker-dropdown", "value"),
+     Input("roic-min", "value")])
+def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div, ticker_dropdown, roic_min):
 
     # Filter
 
-    max_div = df["UNINT. DIV."].max()
+    max_unint_div = df["UNINT. DIV."].max()
+    roic_max = df["ROIC (%)"].max()
 
     num_df = df[(df["PE"].between(pe_min, pe_max)) &
                 (df["BV"].between(bv_min, bv_max)) &
-                (df["UNINT. DIV."].between(min_unint_div, max_div))] #to use OR, change "&" for "|"
+                (df["UNINT. DIV."].between(min_unint_div, max_unint_div)) &
+                (df["ROIC (%)"].between(roic_min, roic_max))
+                ] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
     if ticker_dropdown is None:
@@ -336,12 +348,12 @@ def toggle_collapse(n, is_open):
         return not is_open
     return is_open
 
-#Ratio Collapse
+#Return Ratio Collapse
 
 @app.callback(
-    Output("ratio-collapse", "is_open"),
-    [Input("ratio-collapse-button", "n_clicks")],
-    [State("ratio-collapse", "is_open")],
+    Output("return-ratio-collapse", "is_open"),
+    [Input("return-ratio-collapse-button", "n_clicks")],
+    [State("return-ratio-collapse", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:
