@@ -218,6 +218,8 @@ def whats_new():
     dcc.Markdown("""
 ---
 
+- 10/08/2020: Added new filters (ROIC, ROE and Op. Margin)
+
 - 9/08/2020: Improved UI
 
 - 8/08/2020: Select your favorite stocks and compare!
@@ -304,18 +306,23 @@ def update_output(n_clicks, value):
      Input("filter-input", "value"),
      Input("unint-div", "value"),
      Input("ticker-dropdown", "value"),
-     Input("roic-min", "value")])
-def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min, bv_max, filter_string, min_unint_div, ticker_dropdown, roic_min):
+     Input("roic-min", "value"),
+     Input("roe-min", "value")])
+def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
+                 bv_max, filter_string, min_unint_div, ticker_dropdown,
+                 roic_min, roe_min):
 
     # Filter
 
     max_unint_div = df["UNINT. DIV."].max()
     roic_max = df["ROIC (%)"].max()
+    roe_max = df["ROE (%)"].max()
 
     num_df = df[(df["PE"].between(pe_min, pe_max)) &
                 (df["BV"].between(bv_min, bv_max)) &
                 (df["UNINT. DIV."].between(min_unint_div, max_unint_div)) &
-                (df["ROIC (%)"].between(roic_min, roic_max))
+                (df["ROIC (%)"].between(roic_min, roic_max)) &
+                (df["ROE (%)"].between(roe_min, roe_max))
                 ] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
