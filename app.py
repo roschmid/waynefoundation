@@ -21,6 +21,9 @@ import json
 import numpy as np
 import dash_bootstrap_components as dbc
 
+
+#Opening variables
+
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
 with open("usr.json", "r") as file:
@@ -38,6 +41,18 @@ server = app.server
 data = "https://raw.githubusercontent.com/roschmid/waynefoundation/master/Data.csv"
 
 df = pd.read_csv(data, sep=",")
+
+def get_ranking():
+
+    pe_rank = df["PE"].rank(ascending=True)
+    bv_rank = df["BV"].rank(ascending=True)
+
+    rank = pe_rank + (bv_rank*0.25)
+
+    return rank
+
+df["RANKING"] = get_ranking()
+    
 PAGE_SIZE = 25
 
 #Layout functions
@@ -98,6 +113,10 @@ def get_ticker_graph():
 ##TAB 2
 
 def get_stock_table():
+
+
+
+    
     return html.Div([
     html.H2("Individual Stock Analysis"),
     dcc.Markdown("""---"""),
@@ -203,7 +222,7 @@ def get_stock_table():
         'rule': 'width: 80%;'
         },
 ],
-    )])])
+    )])])  
 
 ##TAB 3
 
