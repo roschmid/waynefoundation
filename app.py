@@ -1,6 +1,5 @@
 #NEXT STEPS:
 #1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
-#1.1) ALTERNATIVELY, ALLOW USERS TO CREATE THEIR OWN PORTFOLIOS, BASED ON THEIR PREFERENCE (MORE OR LESS LIKE THE FILTERS)
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
 #3) CREATE SPANISH/ENGLISH VERSION
 #4) GIT UPDATE STOCK INFO (Update .csv by parts)
@@ -46,12 +45,19 @@ def get_ranking():
 
     pe_rank = df["PE"].rank(ascending=True)
     bv_rank = df["BV"].rank(ascending=True)
+    unint_div_rank = df["UNINT. DIV."].rank(ascending=False)
+    div_rank = df["HIST. DIV. YIELD (%)"].rank(ascending=False)
+    op_margin_rank = df["OP. MARGIN (%)"].rank(ascending=False)
+    roic_rank = df["ROIC (%)"].rank(ascending=False)
+    current_ratio_rank = df["CURRENT RATIO"].rank(ascending=False)
 
-    rank = pe_rank + (bv_rank*0.25)
+    rank = pe_rank + (bv_rank*0.25) + (unint_div_rank*0.5) + div_rank + (op_margin_rank*0.5) + (roic_rank*0.5) + (current_ratio_rank*0.25)
 
-    return rank
+    filtered_rank = rank.rank(ascending=True)
 
-df["RANKING"] = get_ranking()
+    return filtered_rank
+
+df["ORBIS RANKING"] = get_ranking()
     
 PAGE_SIZE = 25
 
