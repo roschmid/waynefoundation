@@ -124,6 +124,8 @@ def get_stock_table():
               html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
               dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
+    html.Div([html.P(children="Historical Dividend Yield (5 yr):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='hist-div-yield', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
     html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
     id="value-collapse")]),
@@ -140,13 +142,13 @@ def get_stock_table():
             dbc.Collapse(
             html.Div([
     html.Div([html.P(children="Return on Invested Capital (ROIC):", id='roic-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='roic-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='roic-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
     html.Div([html.P(children="Return on Invested Equity (ROE):", id='roe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='roe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='roe-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
     html.Div([html.P(children="Operating Margin:", id='op-margin-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='op-margin-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='op-margin-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
     ]),
     id="return-ratio-collapse")]),
@@ -218,7 +220,7 @@ def whats_new():
     dcc.Markdown("""
 ---
 
-- 10/08/2020: Added new filters (ROIC, ROE and Op. Margin)
+- 10/08/2020: Added new filters (ROIC, ROE, Op. Margin and Dividend Yield)
 
 - 9/08/2020: Improved UI
 
@@ -308,10 +310,11 @@ def update_output(n_clicks, value):
      Input("ticker-dropdown", "value"),
      Input("roic-min", "value"),
      Input("roe-min", "value"),
-     Input("op-margin-min", "value")])
+     Input("op-margin-min", "value"),
+     Input("hist-div-yield", "value")])
 def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                  bv_max, filter_string, min_unint_div, ticker_dropdown,
-                 roic_min, roe_min, op_margin_min):
+                 roic_min, roe_min, op_margin_min, hist_div_yield_min):
 
     # Filter
 
@@ -319,13 +322,15 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
     roic_max = df["ROIC (%)"].max()
     roe_max = df["ROE (%)"].max()
     op_margin_max = df["OP. MARGIN (%)"].max()
+    hist_div_yield_max = df["HIST. DIV. YIELD (%)"].max()
 
     num_df = df[(df["PE"].between(pe_min, pe_max)) &
                 (df["BV"].between(bv_min, bv_max)) &
                 (df["UNINT. DIV."].between(min_unint_div, max_unint_div)) &
                 (df["ROIC (%)"].between(roic_min, roic_max)) &
                 (df["ROE (%)"].between(roe_min, roe_max)) &
-                (df["OP. MARGIN (%)"].between(op_margin_min, op_margin_max))
+                (df["OP. MARGIN (%)"].between(op_margin_min, op_margin_max)) &
+                (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max))
                 ] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
