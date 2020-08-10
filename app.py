@@ -1,5 +1,5 @@
 #NEXT STEPS:
-#0) MORE FILTERS (ROE, ROA, OP. MARGIN)
+#0) MORE FILTERS (CURRENT RATIO)
 #1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #1.1) ALTERNATIVELY, ALLOW USERS TO CREATE THEIR OWN PORTFOLIOS, BASED ON THEIR PREFERENCE (MORE OR LESS LIKE THE FILTERS)
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
@@ -307,22 +307,25 @@ def update_output(n_clicks, value):
      Input("unint-div", "value"),
      Input("ticker-dropdown", "value"),
      Input("roic-min", "value"),
-     Input("roe-min", "value")])
+     Input("roe-min", "value"),
+     Input("op-margin-min", "value")])
 def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                  bv_max, filter_string, min_unint_div, ticker_dropdown,
-                 roic_min, roe_min):
+                 roic_min, roe_min, op_margin_min):
 
     # Filter
 
     max_unint_div = df["UNINT. DIV."].max()
     roic_max = df["ROIC (%)"].max()
     roe_max = df["ROE (%)"].max()
+    op_margin_max = df["OP. MARGIN (%)"].max()
 
     num_df = df[(df["PE"].between(pe_min, pe_max)) &
                 (df["BV"].between(bv_min, bv_max)) &
                 (df["UNINT. DIV."].between(min_unint_div, max_unint_div)) &
                 (df["ROIC (%)"].between(roic_min, roic_max)) &
-                (df["ROE (%)"].between(roe_min, roe_max))
+                (df["ROE (%)"].between(roe_min, roe_max)) &
+                (df["OP. MARGIN (%)"].between(op_margin_min, op_margin_max))
                 ] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
