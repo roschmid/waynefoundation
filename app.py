@@ -1,5 +1,4 @@
 #NEXT STEPS:
-#0) MORE FILTERS (CURRENT RATIO)
 #1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #1.1) ALTERNATIVELY, ALLOW USERS TO CREATE THEIR OWN PORTFOLIOS, BASED ON THEIR PREFERENCE (MORE OR LESS LIKE THE FILTERS)
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
@@ -152,6 +151,26 @@ def get_stock_table():
               ]),
     ]),
     id="return-ratio-collapse")]),
+
+#Financial Filters
+
+    html.Div([
+        dbc.Button("⭳ Financial Filters",
+                   id="financial-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   style={"width":"100%", "textAlign":"left"}
+                   ),
+        dbc.Collapse(
+            html.Div([
+    html.Div([html.P(children="Current Ratio:", id='current-ratio-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='current-ratio-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='current-ratio-max', type='number', placeholder="Max.", value=df["CURRENT RATIO"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    ]),
+    id="financial-collapse")]),
+    
     html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
                      dcc.Dropdown(
                          id="ticker-dropdown",
@@ -220,7 +239,7 @@ def whats_new():
     dcc.Markdown("""
 ---
 
-- 10/08/2020: Added new filters (ROIC, ROE, Op. Margin and Dividend Yield)
+- 10/08/2020: Added new filters (ROIC, ROE, Op. Margin, Dividend Yield and Current Ratio)
 
 - 9/08/2020: Improved UI
 
@@ -311,10 +330,13 @@ def update_output(n_clicks, value):
      Input("roic-min", "value"),
      Input("roe-min", "value"),
      Input("op-margin-min", "value"),
-     Input("hist-div-yield", "value")])
+     Input("hist-div-yield", "value"),
+     Input("current-ratio-min", "value"),
+     Input("current-ratio-max", "value")])
 def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                  bv_max, filter_string, min_unint_div, ticker_dropdown,
-                 roic_min, roe_min, op_margin_min, hist_div_yield_min):
+                 roic_min, roe_min, op_margin_min, hist_div_yield_min,
+                 current_ratio_min, current_ratio_max):
 
     # Filter
 
@@ -330,7 +352,8 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                 (df["ROIC (%)"].between(roic_min, roic_max)) &
                 (df["ROE (%)"].between(roe_min, roe_max)) &
                 (df["OP. MARGIN (%)"].between(op_margin_min, op_margin_max)) &
-                (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max))
+                (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max)) &
+                (df["CURRENT RATIO"].between(current_ratio_min, current_ratio_max))
                 ] #to use OR, change "&" for "|"
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
@@ -369,6 +392,18 @@ def toggle_collapse(n, is_open):
     Output("return-ratio-collapse", "is_open"),
     [Input("return-ratio-collapse-button", "n_clicks")],
     [State("return-ratio-collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+#Financial Collapse
+
+@app.callback(
+    Output("financial-collapse", "is_open"),
+    [Input("financial-collapse-button", "n_clicks")],
+    [State("financial-collapse", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:
