@@ -236,6 +236,21 @@ def get_stock_table():
             target="_blank")
         ])])  
 
+def toast():
+    return html.Div([
+        dbc.Toast(
+                    "This file is in CSV format. To read it in Excel as a table, \
+                    open a new Excel file, select the 'Data' Menu and then click on 'from text/CSV'.",
+                    id="positioned-toast",
+                    header="Downloading Data",
+                    is_open=False,
+                    dismissable=True,
+                    icon="secondary",
+                    # top: 66 positions the toast below the navbar
+                    style={"position": "fixed", "top": 66, "right": 10, "width": 350},
+                ),
+            ])
+
 ##TAB 3
 
 def orbis_academy():
@@ -290,7 +305,8 @@ def whats_new():
 
 app.layout = html.Div(children=[
     title(),
-    tabs_layout()
+    tabs_layout(),
+    toast()
     ], style={"padding": "0px 100px 0px 100px"})
 
 #Callbacks
@@ -450,6 +466,17 @@ def update_download_link(filter_value):
     csv_string = df.to_csv(index=False, encoding='utf-8')
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
+
+#Toast
+
+@app.callback(
+    Output("positioned-toast", "is_open"),
+    [Input("download-link", "n_clicks")],
+)
+def open_toast(n):
+    if n:
+        return True
+    return False
 
 #Main
 
