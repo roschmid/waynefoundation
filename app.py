@@ -1,5 +1,6 @@
 #NEXT STEPS:
 #1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
+#USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
 #3) CREATE SPANISH/ENGLISH VERSION
 #4) GIT UPDATE STOCK INFO (Update .csv by parts)
@@ -67,7 +68,6 @@ PAGE_SIZE = 25
 def title():
     return html.Div([html.H1("Orbis Investments - Stock Market Workshop"),
                      dcc.Markdown("---"),
-                     html.P(),
                      dcc.Markdown("""
 Welcome to the Orbis Investments' **Stock Market Workshop** (SMW),
 created by Rafael Schmidt.
