@@ -1,10 +1,10 @@
-##NEXT STEPS:
+###NEXT STEPS:
 #1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
 #3) CREATE SPANISH/ENGLISH VERSION
 #4) GIT UPDATE STOCK INFO (Update .csv by parts)
-#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.Imp
+#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
 #CLEAN CODE
 
 import dash
@@ -30,7 +30,7 @@ external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/min
 with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
 app.title = "Orbis Investments"
 
 auth = dash_auth.BasicAuth(
@@ -82,7 +82,6 @@ For more information, do not hesitate to contact us via [GitHub](https://github.
 ---
 """)
                      ])
-
 
 def tabs_layout():
     return html.Div([
@@ -304,6 +303,8 @@ def whats_new():
 #App Layout
 
 app.layout = html.Div(children=[
+    dcc.Location(id="url", refresh=False),
+    html.Div(id="page-content"),
     title(),
     tabs_layout(),
     toast()
