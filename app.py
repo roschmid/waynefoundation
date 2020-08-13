@@ -1,5 +1,5 @@
 ###NEXT STEPS:
-#1) CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
+#CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
 #2) COMPLETE ORBIS ACADEMY WITH WAYNE'S EXCEL
 #3) CREATE SPANISH/ENGLISH VERSION
@@ -21,6 +21,8 @@ import json
 import numpy as np
 import dash_bootstrap_components as dbc
 import urllib.parse
+from pages import (orbis_academy,
+                   whats_new)
 
 
 #Opening variables
@@ -90,9 +92,9 @@ def tabs_layout():
             get_ticker_graph()]),
         dcc.Tab(label='Stock Analysis', value='tab-2', children=[
             get_stock_table()]),
-        dcc.Tab(label="Orbis Academy", value="tab-3", children=[orbis_academy()]),
+        dcc.Tab(label="Orbis Academy", value="tab-3", children=[orbis_academy.info()]),
         dcc.Tab(label="What's New?", value="tab-4", children=[
-            whats_new()])
+            whats_new.info()])
     ],
              colors={
                  "border": '#d6d6d6',
@@ -110,7 +112,7 @@ def get_ticker_graph():
     html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
               html.Button("Search", id="button", style={"backgroundColor": "white", 
                                                         "color": "black", "border": "1px solid grey",
-                                                        "padding": "3px 38px",
+                                                        "padding": "3px 38px", "margin": "0px 0px 0px 10px",
                                                         "textAlign": "center", "textDecoration": "none",
                                                         "display": "inline-block", "fontSize": "16px"})], className="rows"),
     html.Div(id='output-container-button'),
@@ -250,56 +252,6 @@ def toast():
                 ),
             ])
 
-##TAB 3
-
-def orbis_academy():
-    return html.Div([
-        html.H2("Orbis Academy"),
-        dcc.Markdown("""
----
-Here you will learn the most important  concepts to evaluate your investments and portfolios from a **value investing** standpoint."""),
-        html.Table([
-            html.Tr([html.Td(["Price/Earning Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
-                     html.Td("""The price-to-earnings ratio or P/E is one of the most widely-used stock analysis tools used by investors and analysts for determining stock valuation.
-The P/E Ratio can be viewed sa the number of years it takes for the company to earn back the price you pay for the stock. Recommended P/E Ratio < 15.""",
-                             style={"borderBottom": "1px solid #ddd", "padding": "20px", "textAlign": "left"})]),
-            html.Tr([html.Td(["Book Value Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
-                     html.Td("""Companies use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value.
-It's calculated by dividing the company's stock price per share by its book value per share (BVPS).
-An asset's book value is equal to its carrying value on the balance sheet, and companies calculate it netting the asset against its accumulated depreciation.
-Recommended B/V < 2.5""",
-                             style={"borderBottom": "1px solid #ddd", "padding": "20px", "textAlign": "left"})]),
-            html.Tr([html.Td(["Current Ratio:"], style={"fontWeight": "bold", "borderBottom": "1px solid #ddd"}),
-                     html.Td("""The current ratio is a liquidity ratio that measures a company's ability to pay short-term obligations or those due within one year. Recommended ratio > 1.5""",
-                             style={"borderBottom": "1px solid #ddd", "padding": "20px", "textAlign": "left"})])
-            ],
-                   style={"width":"70%"})
-        ])
-
-##TAB 4
-
-def whats_new():
-    return html.Div([
-    html.H2("What's New?"),
-    dcc.Markdown("""
----
-
-- 10/08/2020: Added new filters (ROIC, ROE, Op. Margin, Dividend Yield and Current Ratio)
-
-- 9/08/2020: Improved UI
-
-- 8/08/2020: Select your favorite stocks and compare!
-
-- 7/08/2020: Added password protection and new columns for Stock Analysis section.
-
-- 6/08/2020: Introducing, the **Orbis Academy!**
-
-- 5/08/2020: Added **Price/Earning**, **Book Value**, and **Uninterrupted Dividend** filters to begin with your portfolio analysis.
-
-- 4/08/2020: Added the **"Price" column** in the Stock Analysis section
-
-- 2/08/2020: **Official release** of the Orbis Investments' SMW!""")])
-
 #App Layout
 
 app.layout = html.Div(children=[
@@ -403,6 +355,7 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                 (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max)) &
                 (df["CURRENT RATIO"].between(current_ratio_min, current_ratio_max))
                 ] #to use OR, change "&" for "|"
+
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
     if ticker_dropdown is None:
