@@ -355,7 +355,6 @@ def update_table(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
                 (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max)) &
                 (df["CURRENT RATIO"].between(current_ratio_min, current_ratio_max))
                 ] #to use OR, change "&" for "|"
-
     final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
 
     if ticker_dropdown is None:
@@ -415,9 +414,52 @@ def toggle_collapse(n, is_open):
 
 @app.callback(
     Output('download-link', 'href'),
-    [Input('filter-input', 'value')])
-def update_download_link(filter_value):
-    csv_string = df.to_csv(index=False, encoding='utf-8')
+    [Input('datatable-paging', 'page_current'),
+     Input('datatable-paging', 'page_size'),
+     Input('datatable-paging', 'sort_by'),
+     Input('pe-min', 'value'),
+     Input("pe-max", "value"),
+     Input("bv-min", "value"),
+     Input("bv-max", "value"),
+     Input("filter-input", "value"),
+     Input("unint-div", "value"),
+     Input("ticker-dropdown", "value"),
+     Input("roic-min", "value"),
+     Input("roe-min", "value"),
+     Input("op-margin-min", "value"),
+     Input("hist-div-yield", "value"),
+     Input("current-ratio-min", "value"),
+     Input("current-ratio-max", "value")])
+def update_download_link(page_current, page_size, sort_by, pe_min, pe_max, bv_min,
+                 bv_max, filter_string, min_unint_div, ticker_dropdown,
+                 roic_min, roe_min, op_margin_min, hist_div_yield_min,
+                 current_ratio_min, current_ratio_max):
+
+    # Filter
+
+    max_unint_div = df["UNINT. DIV."].max()
+    roic_max = df["ROIC (%)"].max()
+    roe_max = df["ROE (%)"].max()
+    op_margin_max = df["OP. MARGIN (%)"].max()
+    hist_div_yield_max = df["HIST. DIV. YIELD (%)"].max()
+
+    num_df = df[(df["PE"].between(pe_min, pe_max)) &
+                (df["BV"].between(bv_min, bv_max)) &
+                (df["UNINT. DIV."].between(min_unint_div, max_unint_div)) &
+                (df["ROIC (%)"].between(roic_min, roic_max)) &
+                (df["ROE (%)"].between(roe_min, roe_max)) &
+                (df["OP. MARGIN (%)"].between(op_margin_min, op_margin_max)) &
+                (df["HIST. DIV. YIELD (%)"].between(hist_div_yield_min, hist_div_yield_max)) &
+                (df["CURRENT RATIO"].between(current_ratio_min, current_ratio_max))
+                ] #to use OR, change "&" for "|"
+    final_df = num_df[num_df.apply(lambda row: row.str.contains(filter_string.upper(), regex=False).any(), axis=1)]
+
+    if ticker_dropdown is None:
+        filtered_df = final_df
+    else:
+        filtered_df = final_df[final_df["NEMO"].str.contains("|".join(ticker_dropdown))]
+    
+    csv_string = filtered_df.to_csv(index=False, encoding='utf-8')
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
 

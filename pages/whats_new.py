@@ -8,6 +8,8 @@ def info():
     dcc.Markdown("""
 ---
 
+- 13/08/2020: Improved the download link. You can now download the filtered data as you please.
+
 - 12/08/2020: Improved code quality. Added "Download Data" button.
 
 - 10/08/2020: Added new filters (ROIC, ROE, Op. Margin, Dividend Yield and Current Ratio)
