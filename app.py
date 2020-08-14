@@ -1,7 +1,7 @@
 ###NEXT STEPS:
 #CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
-#3) CREATE SPANISH/ENGLISH VERSION
+#3) COMPLETE SPANISH/ENGLISH VERSION
 #4) GIT UPDATE STOCK INFO (Update .csv by parts)
 #5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
 #CLEAN CODE
@@ -69,16 +69,15 @@ PAGE_SIZE = 25
 def title():
     return html.Div([
         dbc.Row([
-            dbc.Col(html.H1("Orbis Investments - Stock Market Workshop"), width=9),
+            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
             dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto")]),
                      dcc.Markdown("---"),
                      dcc.Markdown("""
-Welcome to the Orbis Investments' **Stock Market Workshop** (SMW),
-created by Rafael Schmidt.
-> **What is the SMW?**\n
-The SMW is a place where you can analyze and prepare your personal portfolio
+Welcome to the `Orbis Screener` ("OS"), created by Rafael Schmidt.\n
+> **What is the OS?**\n
+The OS is a place where you can analyze and prepare your personal portfolio
 to invest in Chilean stocks.\n
 Orbis Investments provides historical data on all of the stocks in the Chilean
 market, such as price, dividend yield, PE ratio, among others.\n
@@ -92,22 +91,21 @@ For more information, do not hesitate to contact us via [GitHub](https://github.
 def title_spanish():
     return html.Div([
         dbc.Row([
-            dbc.Col(html.H1("Orbis Investments - Análisis de Acciones"), width=9),
+            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
             dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto")]),
                      dcc.Markdown("---"),
                      dcc.Markdown("""
-Bienvenido al **Análisis de Acciones** de Orbis Investments,
-creado por Rafael Schmidt.
-> **What is the SMW?**\n
-The SMW is a place where you can analyze and prepare your personal portfolio
-to invest in Chilean stocks.\n
-Orbis Investments provides historical data on all of the stocks in the Chilean
-market, such as price, dividend yield, PE ratio, among others.\n
-Furthermore, you will be able to find information that is not
-available even in the Chilean Stock Exchange.\n
-For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). \n
+Bienvenido al `Orbis Screener` ("OS"), creado por Rafael Schmidt.\n
+> **¿Qué es el OS?**\n
+El OS es la herramienta que te permitirá analizar y preparar tu portafolio
+personal para invertir en acciones chilenas.\n
+Orbis Investments te provee información histórica de la totalidad de las
+acciones del mercado chileno, tales como precio, retorno sobre dividendos,
+razón precio-utilidad, entre otros.\n
+Asimismo, podrás encontrar información valiosa que no se encuentra disponible en ninguna otra parte.\n
+Para más información, no dudes en contactarnos vía [GitHub](https://github.com/roschmid/waynefoundation). \n
 ---
 """)
                      ])
@@ -295,21 +293,6 @@ def get_stock_table():
             target="_blank")
         ])])  
 
-def toast():
-    return html.Div([
-        dbc.Toast(
-                    "This file is in CSV format. To read it in Excel as a table, \
-                    open a new Excel file, select the 'Data' Menu and then click on 'from text/CSV'.",
-                    id="positioned-toast",
-                    header="Downloading Data",
-                    is_open=False,
-                    dismissable=True,
-                    icon="secondary",
-                    # top: 66 positions the toast below the navbar
-                    style={"position": "fixed", "top": 66, "right": 10, "width": 350},
-                ),
-            ])
-
 def get_stock_table_spanish():
     
     return html.Div([
@@ -319,7 +302,7 @@ def get_stock_table_spanish():
 #Value Filters
     
     html.Div([
-        dbc.Button("⭳ Value Filters",
+        dbc.Button("⭳ Filtros de Valor",
                    id="value-collapse-button",
                    className="mb-3",
                    color="primary",
@@ -327,26 +310,26 @@ def get_stock_table_spanish():
                    ),
         dbc.Collapse(
             html.Div([
-    html.Div([html.P(children="Price-Earning Ratio:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+    html.Div([html.P(children="Ratio Precio-Utilidad:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='pe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
               dcc.Input(id='pe-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
-    html.Div([html.P(children="Book Value Ratio:", id='bv-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+    html.Div([html.P(children="Ratio Valor Libro:", id='bv-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='bv-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
               dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
-    html.Div([html.P(children="Historical Dividend Yield (5 yr):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+    html.Div([html.P(children="Retorno de Dividendos Histórico (5 yr):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='hist-div-yield', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
-    html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+    html.Div([html.P(children="Años de Dividendos Ininterrumpidos:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
               dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
     id="value-collapse")]),
 
 #Return Ratio Filters
 
     html.Div([
-        dbc.Button("⭳ Return Ratio Filters",
+        dbc.Button("⭳ Filtros de Retorno",
                    id="return-ratio-collapse-button",
                    className="mb-3",
                    color="primary",
@@ -369,7 +352,7 @@ def get_stock_table_spanish():
 #Financial Filters
 
     html.Div([
-        dbc.Button("⭳ Financial Filters",
+        dbc.Button("⭳ Filtros Financieros",
                    id="financial-collapse-button",
                    className="mb-3",
                    color="primary",
@@ -425,7 +408,23 @@ def get_stock_table_spanish():
             href="",
             style={"margin":"0px 0px 0px -15px"},
             target="_blank")
-        ])])  
+        ])])
+
+
+def toast():
+    return html.Div([
+        dbc.Toast(
+                    "This file is in CSV format. To read it in Excel as a table, \
+                    open a new Excel file, select the 'Data' Menu and then click on 'from text/CSV'.",
+                    id="positioned-toast",
+                    header="Downloading Data",
+                    is_open=False,
+                    dismissable=True,
+                    icon="secondary",
+                    # top: 66 positions the toast below the navbar
+                    style={"position": "fixed", "top": 66, "right": 10, "width": 350},
+                ),
+            ])
 
 def toast_spanish():
     return html.Div([

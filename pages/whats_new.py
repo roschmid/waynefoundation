@@ -8,6 +8,8 @@ def info():
     dcc.Markdown("""
 ---
 
+- 14/08/2020: Added the **Spanish version** with functionality.
+
 - 13/08/2020: Improved the download link. You can now download the filtered data as you please.
 
 - 12/08/2020: Improved code quality. Added "Download Data" button.
