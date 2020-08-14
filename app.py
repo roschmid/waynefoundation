@@ -64,19 +64,42 @@ df["ORBIS RANKING"] = get_ranking()
     
 PAGE_SIZE = 25
 
-#Layout functions
+#Layout functions English
 
 def title():
     return html.Div([
         dbc.Row([
             dbc.Col(html.H1("Orbis Investments - Stock Market Workshop"), width=9),
-            dbc.Col(dcc.Link("Español", href="/"), width="auto"),
+            dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto")]),
                      dcc.Markdown("---"),
                      dcc.Markdown("""
 Welcome to the Orbis Investments' **Stock Market Workshop** (SMW),
 created by Rafael Schmidt.
+> **What is the SMW?**\n
+The SMW is a place where you can analyze and prepare your personal portfolio
+to invest in Chilean stocks.\n
+Orbis Investments provides historical data on all of the stocks in the Chilean
+market, such as price, dividend yield, PE ratio, among others.\n
+Furthermore, you will be able to find information that is not
+available even in the Chilean Stock Exchange.\n
+For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). \n
+---
+""")
+                     ])
+
+def title_spanish():
+    return html.Div([
+        dbc.Row([
+            dbc.Col(html.H1("Orbis Investments - Análisis de Acciones"), width=9),
+            dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
+            dbc.Col(html.P("/"), width="auto"),
+            dbc.Col(dcc.Link("English", href="/"), width="auto")]),
+                     dcc.Markdown("---"),
+                     dcc.Markdown("""
+Bienvenido al **Análisis de Acciones** de Orbis Investments,
+creado por Rafael Schmidt.
 > **What is the SMW?**\n
 The SMW is a place where you can analyze and prepare your personal portfolio
 to invest in Chilean stocks.\n
@@ -107,11 +130,42 @@ def tabs_layout():
     html.Div(id='tabs-content')
 ])
 
+def tabs_layout_spanish():
+    return html.Div([
+    dcc.Tabs(id="tabs", value='tab-1', children=[
+        dcc.Tab(label='Gráfico Histórico', value='tab-1', children=[
+            get_ticker_graph_spanish()]),
+        dcc.Tab(label='Análisis de Acciones', value='tab-2', children=[
+            get_stock_table_spanish()]),
+        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info()]),
+        dcc.Tab(label="Novedades", value="tab-4", children=[
+            whats_new.info()])
+    ],
+             colors={
+                 "border": '#d6d6d6',
+                 "primary": 'green',
+                 "background": '#f9f9f9', }),
+    html.Div(id='tabs-content')
+])
+
 ##TAB 1
 
 def get_ticker_graph():
     return html.Div([
     html.H2("Historical Price Graph"),
+    dcc.Markdown("""---"""),
+    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
+              html.Button("Search", id="button", style={"backgroundColor": "white", 
+                                                        "color": "black", "border": "1px solid grey",
+                                                        "padding": "3px 38px", "margin": "0px 0px 0px 10px",
+                                                        "textAlign": "center", "textDecoration": "none",
+                                                        "display": "inline-block", "fontSize": "16px"})], className="rows"),
+    html.Div(id='output-container-button'),
+    ])
+
+def get_ticker_graph_spanish():
+    return html.Div([
+    html.H2("Gráfico Histórico del Precio"),
     dcc.Markdown("""---"""),
     html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
               html.Button("Search", id="button", style={"backgroundColor": "white", 
@@ -256,17 +310,168 @@ def toast():
                 ),
             ])
 
-#App Layout
+def get_stock_table_spanish():
+    
+    return html.Div([
+    html.H2("Análisis Individual"),
+    dcc.Markdown("""---"""),
 
-app.layout = html.Div(children=[
-    dcc.Location(id="url", refresh=False),
-    html.Div(id="page-content"),
+#Value Filters
+    
+    html.Div([
+        dbc.Button("⭳ Value Filters",
+                   id="value-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   style={"width":"100%", "textAlign":"left"}
+                   ),
+        dbc.Collapse(
+            html.Div([
+    html.Div([html.P(children="Price-Earning Ratio:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='pe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='pe-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    html.Div([html.P(children="Book Value Ratio:", id='bv-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='bv-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    html.Div([html.P(children="Historical Dividend Yield (5 yr):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='hist-div-yield', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
+    html.Div([html.P(children="Min. Years of Uninterrupted Dividends:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
+    id="value-collapse")]),
+
+#Return Ratio Filters
+
+    html.Div([
+        dbc.Button("⭳ Return Ratio Filters",
+                   id="return-ratio-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   style={"width":"100%", "textAlign":"left"}
+                   ),
+            dbc.Collapse(
+            html.Div([
+    html.Div([html.P(children="Return on Invested Capital (ROIC):", id='roic-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roic-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    html.Div([html.P(children="Return on Invested Equity (ROE):", id='roe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roe-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    html.Div([html.P(children="Operating Margin:", id='op-margin-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='op-margin-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              ]),
+    ]),
+    id="return-ratio-collapse")]),
+
+#Financial Filters
+
+    html.Div([
+        dbc.Button("⭳ Financial Filters",
+                   id="financial-collapse-button",
+                   className="mb-3",
+                   color="primary",
+                   style={"width":"100%", "textAlign":"left"}
+                   ),
+        dbc.Collapse(
+            html.Div([
+    html.Div([html.P(children="Current Ratio:", id='current-ratio-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='current-ratio-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='current-ratio-max', type='number', placeholder="Max.", value=df["CURRENT RATIO"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              ]),
+    ]),
+    id="financial-collapse")]),
+    
+    html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
+                     dcc.Dropdown(
+                         id="ticker-dropdown",
+                         options=[
+                             {'label': i, 'value': i} for i in df["NEMO"].unique()
+                         ],
+                         multi=True,
+                         placeholder="Filter by Ticker...",
+                         style={"width":500}                         
+                         )]),
+    dcc.Markdown("""---"""),
+    html.Div([
+        html.P(""),
+        dcc.Input(value='', id='filter-input', placeholder='Search for Ticker...', debounce=False, style={"margin":"0px 0px 1px -15px"}),
+        dash_table.DataTable(
+        id='datatable-paging',
+        columns=[
+            {"name": i, "id": i} for i in df.columns  # sorted(df.columns)
+        ],
+        page_current=0,
+        page_size=PAGE_SIZE,
+        page_action='custom',
+
+        sort_action='custom',
+        sort_mode='single',
+        sort_by=[],
+        css=[
+            {
+        'selector': 'table',
+        'rule': 'width: 100%;'
+        },
+],
+    ),
+        html.A(
+            "Download Data",
+            id="download-link",
+            download="Orbis-Investments-Screener.csv",
+            href="",
+            style={"margin":"0px 0px 0px -15px"},
+            target="_blank")
+        ])])  
+
+def toast_spanish():
+    return html.Div([
+        dbc.Toast(
+                    "This file is in CSV format. To read it in Excel as a table, \
+                    open a new Excel file, select the 'Data' Menu and then click on 'from text/CSV'.",
+                    id="positioned-toast",
+                    header="Downloading Data",
+                    is_open=False,
+                    dismissable=True,
+                    icon="secondary",
+                    # top: 66 positions the toast below the navbar
+                    style={"position": "fixed", "top": 66, "right": 10, "width": 350},
+                ),
+            ])
+
+#Layout
+
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')
+])
+
+english_page = html.Div([
     title(),
     tabs_layout(),
     toast()
-    ], style={"padding": "0px 100px 0px 100px"})
+], style={"padding": "0px 100px 0px 100px"})
+
+page_1_layout = html.Div([
+    title_spanish(),
+    tabs_layout_spanish(),
+    toast_spanish()
+], style={"padding": "0px 100px 0px 100px"})
 
 #Callbacks
+
+## Update the index
+@app.callback(dash.dependencies.Output('page-content', 'children'),
+              [dash.dependencies.Input('url', 'pathname')])
+def display_page(pathname):
+    if pathname == '/spanish':
+        return page_1_layout
+    else:
+        return english_page
+    # You could also return a 404 "URL not found" page here
 
 ##TAB 1
 
