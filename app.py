@@ -20,7 +20,8 @@ import json
 import numpy as np
 import dash_bootstrap_components as dbc
 import urllib.parse
-from pages import (orbis_academy,
+from pages import (title,
+                   orbis_academy,
                    whats_new)
 
 
@@ -64,51 +65,7 @@ df["ORBIS RANKING"] = get_ranking()
     
 PAGE_SIZE = 25
 
-#Layout functions English
-
-def title():
-    return html.Div([
-        dbc.Row([
-            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
-            dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
-            dbc.Col(html.P("/"), width="auto"),
-            dbc.Col(dcc.Link("English", href="/"), width="auto")]),
-                     dcc.Markdown("---"),
-                     dcc.Markdown("""
-Welcome to the `Orbis Screener` ("OS"), created by Rafael Schmidt.\n
-> **What is the OS?**\n
-The OS is a place where you can analyze and prepare your personal portfolio
-to invest in Chilean stocks.\n
-Orbis Investments provides historical data on all of the stocks in the Chilean
-market, such as price, dividend yield, PE ratio, among others.\n
-Furthermore, you will be able to find information that is not
-available even in the Chilean Stock Exchange.\n
-For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid/waynefoundation). \n
----
-""")
-                     ])
-
-def title_spanish():
-    return html.Div([
-        dbc.Row([
-            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
-            dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
-            dbc.Col(html.P("/"), width="auto"),
-            dbc.Col(dcc.Link("English", href="/"), width="auto")]),
-                     dcc.Markdown("---"),
-                     dcc.Markdown("""
-Bienvenido al `Orbis Screener` ("OS"), creado por Rafael Schmidt.\n
-> **¿Qué es el OS?**\n
-El OS es la herramienta que te permitirá analizar y preparar tu portafolio
-personal para invertir en acciones chilenas.\n
-Orbis Investments te provee información histórica de la totalidad de las
-acciones del mercado chileno, tales como precio, retorno sobre dividendos,
-razón precio-utilidad, entre otros.\n
-Asimismo, podrás encontrar información valiosa que no se encuentra disponible en ninguna otra parte.\n
-Para más información, no dudes en contactarnos vía [GitHub](https://github.com/roschmid/waynefoundation). \n
----
-""")
-                     ])
+#Layout functions
 
 def tabs_layout():
     return html.Div([
@@ -137,7 +94,7 @@ def tabs_layout_spanish():
             get_stock_table_spanish()]),
         dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info()]),
         dcc.Tab(label="Novedades", value="tab-4", children=[
-            whats_new.info()])
+            whats_new.info_spanish()])
     ],
              colors={
                  "border": '#d6d6d6',
@@ -165,8 +122,8 @@ def get_ticker_graph_spanish():
     return html.Div([
     html.H2("Gráfico Histórico del Precio"),
     dcc.Markdown("""---"""),
-    html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
-              html.Button("Search", id="button", style={"backgroundColor": "white", 
+    html.Div([dcc.Input(id='input-box', type='text', placeholder="Buscar Nemo..."),
+              html.Button("Buscar", id="button", style={"backgroundColor": "white", 
                                                         "color": "black", "border": "1px solid grey",
                                                         "padding": "3px 38px", "margin": "0px 0px 0px 10px",
                                                         "textAlign": "center", "textDecoration": "none",
@@ -449,13 +406,13 @@ app.layout = html.Div([
 ])
 
 english_page = html.Div([
-    title(),
+    title.title(),
     tabs_layout(),
     toast()
 ], style={"padding": "0px 100px 0px 100px"})
 
 page_1_layout = html.Div([
-    title_spanish(),
+    title.title_spanish(),
     tabs_layout_spanish(),
     toast_spanish()
 ], style={"padding": "0px 100px 0px 100px"})
@@ -489,7 +446,7 @@ def update_output(n_clicks, value):
 ###Graph info
 
     fig = px.line(info, x=info["Close"].index.to_list(), y=info["Close"].to_list(),
-                  title="Historical Price for " + str(value).upper(),
+                  title="Ticker/Nemo: " + str(value).upper(),
                   labels = {"x":str(value).upper(), "y": "Prices"})
 
     fig.update_xaxes(

@@ -29,3 +29,31 @@ def info():
 - 4/08/2020: Added the **"Price" column** in the Stock Analysis section
 
 - 2/08/2020: **Official release** of the Orbis Investments' SMW!""")])
+
+def info_spanish():
+    return html.Div([
+    html.H2("Novedades"),
+    dcc.Markdown("""
+---
+
+- 14/08/2020: **Sección en español** y funcional.
+
+- 13/08/2020: Mejoras a la descarga de información, ahora se descarga la información filtrada.
+
+- 12/08/2020: Mejoras en calidad de código. Se permite descargar información.
+
+- 10/08/2020: Nuevos filtors (ROIC, ROE, Margen Op., Retorno de Dividendos y Test Líquido)
+
+- 9/08/2020: Mejoras de UI
+
+- 8/08/2020: Elija sus acciones favoritas y compare!
+
+- 7/08/2020: Protección de contraseña y nuevas columnas en la sección de análisis.
+
+- 6/08/2020: Bienvenidos a la **Academia Orbis!**
+
+- 5/08/2020: Se agregaron los filtros para **Price/Earning**, **Book Value**, y **Dividendos Ininterrumpidos** para comenzar con el análisis de portafolio.
+
+- 4/08/2020: Se agregó la columna de "Precio" en la sección de análisis
+
+- 2/08/2020: **Publicación oficial** del Orbis Screener!""")])
