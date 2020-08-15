@@ -92,7 +92,7 @@ def tabs_layout_spanish():
             get_ticker_graph_spanish()]),
         dcc.Tab(label='Análisis de Acciones', value='tab-2', children=[
             get_stock_table_spanish()]),
-        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info()]),
+        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info_spanish()]),
         dcc.Tab(label="Novedades", value="tab-4", children=[
             whats_new.info_spanish()])
     ],
@@ -268,25 +268,25 @@ def get_stock_table_spanish():
         dbc.Collapse(
             html.Div([
     html.Div([html.P(children="Ratio Precio-Utilidad:", id='pe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='pe-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              dcc.Input(id='pe-max', type='number', placeholder="Max.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              dcc.Input(id='pe-min', type='number', placeholder="Mín.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("a", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='pe-max', type='number', placeholder="Máx.", value=df["PE"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
     html.Div([html.P(children="Ratio Valor Libro:", id='bv-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='bv-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              dcc.Input(id='bv-max', type='number', placeholder="Max.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+              dcc.Input(id='bv-min', type='number', placeholder="Mín.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("a", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='bv-max', type='number', placeholder="Máx.", value=df["BV"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
-    html.Div([html.P(children="Retorno de Dividendos Histórico (5 yr):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='hist-div-yield', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
+    html.Div([html.P(children="Retorno de Dividendos Histórico (5 años):", id='hist-div-yield-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='hist-div-yield', type='number', placeholder="Mín. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})]),
     html.Div([html.P(children="Años de Dividendos Ininterrumpidos:", id='unint-div-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='unint-div', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
+              dcc.Input(id='unint-div', type='number', placeholder="Mín.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})])]),
     id="value-collapse")]),
 
 #Return Ratio Filters
 
     html.Div([
-        dbc.Button("⭳ Filtros de Retorno",
+        dbc.Button("⭳ Filtros de Retornos",
                    id="return-ratio-collapse-button",
                    className="mb-3",
                    color="primary",
@@ -294,14 +294,14 @@ def get_stock_table_spanish():
                    ),
             dbc.Collapse(
             html.Div([
-    html.Div([html.P(children="Return on Invested Capital (ROIC):", id='roic-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='roic-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+    html.Div([html.P(children="Retorno sobre el Capital Invertido (ROIC):", id='roic-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roic-min', type='number', placeholder="Mín. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
-    html.Div([html.P(children="Return on Invested Equity (ROE):", id='roe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='roe-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+    html.Div([html.P(children="Retorno sobre el Patrimonio (ROE):", id='roe-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='roe-min', type='number', placeholder="Mín. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
-    html.Div([html.P(children="Operating Margin:", id='op-margin-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='op-margin-min', type='number', placeholder="Min. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+    html.Div([html.P(children="Margen Operativo:", id='op-margin-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='op-margin-min', type='number', placeholder="Mín. (%)", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
               ]),
     ]),
     id="return-ratio-collapse")]),
@@ -317,28 +317,28 @@ def get_stock_table_spanish():
                    ),
         dbc.Collapse(
             html.Div([
-    html.Div([html.P(children="Current Ratio:", id='current-ratio-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
-              dcc.Input(id='current-ratio-min', type='number', placeholder="Min.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              html.P("to", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
-              dcc.Input(id='current-ratio-max', type='number', placeholder="Max.", value=df["CURRENT RATIO"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
+    html.Div([html.P(children="Razón Líquida:", id='current-ratio-label', style={"display":"inline-block", "margin": "0px 0px 0px 0px"}),
+              dcc.Input(id='current-ratio-min', type='number', placeholder="Mín.", value=0, style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              html.P("a", style={"display":"inline-block", "margin": "0px 0px 0px 10px"}),
+              dcc.Input(id='current-ratio-max', type='number', placeholder="Máx.", value=df["CURRENT RATIO"].max(), style={"width":100, "height":20, "display":"inline-block", "margin": "0px 0px 0px 10px"})
               ]),
     ]),
     id="financial-collapse")]),
     
-    html.Div([html.P(children="Compare your favorite stocks:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
+    html.Div([html.P(children="Compara tus acciones favoritas:", id="multi-select-label", style={"display":"inline-block", "margin": "10px 0px 0px 0px"}),
                      dcc.Dropdown(
                          id="ticker-dropdown",
                          options=[
                              {'label': i, 'value': i} for i in df["NEMO"].unique()
                          ],
                          multi=True,
-                         placeholder="Filter by Ticker...",
+                         placeholder="Filtra por Nemo...",
                          style={"width":500}                         
                          )]),
     dcc.Markdown("""---"""),
     html.Div([
         html.P(""),
-        dcc.Input(value='', id='filter-input', placeholder='Search for Ticker...', debounce=False, style={"margin":"0px 0px 1px -15px"}),
+        dcc.Input(value='', id='filter-input', placeholder='Buscar Nemo...', debounce=False, style={"margin":"0px 0px 1px -15px"}),
         dash_table.DataTable(
         id='datatable-paging',
         columns=[
@@ -359,14 +359,13 @@ def get_stock_table_spanish():
 ],
     ),
         html.A(
-            "Download Data",
+            "Descargar Data",
             id="download-link",
             download="Orbis-Investments-Screener.csv",
             href="",
             style={"margin":"0px 0px 0px -15px"},
             target="_blank")
         ])])
-
 
 def toast():
     return html.Div([
@@ -383,13 +382,15 @@ def toast():
                 ),
             ])
 
+
 def toast_spanish():
     return html.Div([
         dbc.Toast(
-                    "This file is in CSV format. To read it in Excel as a table, \
-                    open a new Excel file, select the 'Data' Menu and then click on 'from text/CSV'.",
+                    "Este archivo se encuentra en formato CSV. Para procesarlo en Excel como tabla, \
+                    crea un nuevo documento Excel, selecciona el menú de 'Datos' y haz click en \
+		    'Desde el texto/CSV'.",
                     id="positioned-toast",
-                    header="Downloading Data",
+                    header="Descargando Data",
                     is_open=False,
                     dismissable=True,
                     icon="secondary",
