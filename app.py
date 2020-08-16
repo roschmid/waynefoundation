@@ -87,7 +87,7 @@ def tabs_layout():
                  "border": '#d6d6d6',
                  "primary": 'green',
                  "background": '#f9f9f9'}),
-            lg=12, md=8, sm=4)]),
+            width=12)]),
     html.Div(id='tabs-content')
 ])
 
@@ -108,7 +108,7 @@ def tabs_layout_spanish():
                  "border": '#d6d6d6',
                  "primary": 'green',
                  "background": '#f9f9f9'}),
-            lg=12, md=8, sm=4)]),
+            width=12)]),
     html.Div(id='tabs-content')
 ])
 
@@ -117,15 +117,15 @@ def tabs_layout_spanish():
 def get_ticker_graph():
     return html.Div([
         dbc.Row([
-            dbc.Col(html.H2("Historical Price Graph"), lg=12, md=8, sm=4),
-    dbc.Col(dcc.Markdown("""---"""), lg=12, md=8, sm=4),
+            dbc.Col(html.H2("Historical Price Graph"), width="auto"),
+    dbc.Col(dcc.Markdown("""---"""), width=12),
     dbc.Col(html.Div([dcc.Input(id='input-box', type='text', placeholder="Search Ticker..."),
               html.Button("Search", id="button", style={"backgroundColor": "white", 
                                                         "color": "black", "border": "1px solid grey",
                                                         "padding": "3px 38px", "margin": "0px 0px 0px 10px",
                                                         "textAlign": "center", "textDecoration": "none",
                                                         "display": "inline-block", "fontSize": "16px"})], className="rows"),
-            lg=12, md=8, sm=4)]),
+            width=12)]),
     html.Div(id='output-container-button'),
     ])
 
