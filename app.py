@@ -2,8 +2,9 @@
 #CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
 #3) COMPLETE SPANISH/ENGLISH VERSION
-#4) GIT UPDATE STOCK INFO (Update .csv by parts)
-#5) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
+#4) ADJUST FOR MOBILE VERSION
+#5) GIT UPDATE STOCK INFO (Update .csv by parts)
+#6) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
 #CLEAN CODE
 
 import dash
@@ -29,7 +30,7 @@ from pages import (title,
 
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
-with open("usr.json", "r") as file:
+with open("/assets/usr.json", "r") as file:
     USER_PASS = json.load(file)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
@@ -41,7 +42,7 @@ auth = dash_auth.BasicAuth(
 
 server = app.server
 
-data = "https://raw.githubusercontent.com/roschmid/waynefoundation/master/Data.csv"
+data = "https://raw.githubusercontent.com/roschmid/waynefoundation/master/assets/Data.csv"
 
 df = pd.read_csv(data, sep=",")
 

@@ -1,4 +1,4 @@
-# Wayne Foundation Project
+# Orbis Investments Project
 
 A quick app for value investing analysis of the Chilean stock market.
 
