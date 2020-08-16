@@ -1,7 +1,6 @@
 ###NEXT STEPS:
 #CREATE RECOMMENDED STOCKS BASED ON ALGORITHM (SEND TO MAIL AND FOLLOW-UP THE DIFFERENT RECOMMENDED PORTFOLIOS)
 #USE PORTFOLIO ALREADY SAVED AND UPLOAD TO GIT. USE THAT DF FOR COMPARISON AND RETURN'S SAKE!
-#4) ADJUST FOR MOBILE VERSION
 #5) GIT UPDATE STOCK INFO (Update .csv by parts)
 #6) FIND A WAY TO MONETIZE THIS AND MAKE IT PUBLIC.
 #CLEAN CODE
@@ -477,8 +476,8 @@ def update_output(n_clicks, value):
         )
     )
 
-    fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)",
-        "paper_bgcolor": "rgba(0, 0, 0, 0)", "height": 600
+    fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)", "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                       "height": 600, "width": 1200
         }, hovermode="x")
 
 ###Return Layout
