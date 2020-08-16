@@ -32,7 +32,10 @@ external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/min
 with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
+                suppress_callback_exceptions=True,
+                meta_tags=[
+                    {"name": "viewport", "content": "width=device-width, initial-scale=1"}])
 app.title = "Orbis Investments"
 
 auth = dash_auth.BasicAuth(
@@ -475,7 +478,7 @@ def update_output(n_clicks, value):
     )
 
     fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)",
-        "paper_bgcolor": "rgba(0, 0, 0, 0)"
+        "paper_bgcolor": "rgba(0, 0, 0, 0)", "height": 600
         }, hovermode="x")
 
 ###Return Layout
