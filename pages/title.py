@@ -6,7 +6,16 @@ import dash_bootstrap_components as dbc
 def title():
     return html.Div([
         dbc.Row([
-            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
+            dbc.Col(
+                dbc.Alert(
+                    "Closed Beta Test",
+                    id="alert-fade",
+                    dismissable=True,
+                    is_open=True,
+                    color="danger"
+                    ),
+                lg=12, md=8, sm=4),
+            dbc.Col(html.H1("Orbis Investments Screener"), lg=9, md=6, sm=3),
             dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto")]),
@@ -28,6 +37,15 @@ For more information, do not hesitate to contact us via [GitHub](https://github.
 def title_spanish():
     return html.Div([
         dbc.Row([
+            dbc.Col(
+                dbc.Alert(
+                    "Closed Beta Test",
+                    id="alert-fade",
+                    dismissable=True,
+                    is_open=True,
+                    color="danger"
+                    ),
+                width=12),
             dbc.Col(html.H1("Orbis Investments Screener"), width=9),
             dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
