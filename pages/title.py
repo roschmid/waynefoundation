@@ -15,7 +15,7 @@ def title():
                     color="danger"
                     ),
                 lg=12, md=8, sm=4),
-            dbc.Col(html.H1("Orbis Investments Screener"), lg=9, md=6, sm=3),
+            dbc.Col(html.H1("Orbis Investments Screener"), lg=8, md=5, sm=2),
             dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto"),
