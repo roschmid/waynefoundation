@@ -18,9 +18,9 @@ def title():
             dbc.Col(html.H1("Orbis Investments Screener"), lg=9, md=6, sm=3),
             dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
-            dbc.Col(dcc.Link("English", href="/"), width="auto")]),
-                     dcc.Markdown("---"),
-                     dcc.Markdown("""
+            dbc.Col(dcc.Link("English", href="/"), width="auto"),
+            dbc.Col(dcc.Markdown("---"), lg=12, md=8, sm=4),
+            dbc.Col(dcc.Markdown("""
 Welcome to the `Orbis Screener` ("OS"), created by Rafael Schmidt.\n
 > **What is the OS?**\n
 The OS is a place where you can analyze and prepare your personal portfolio
@@ -31,7 +31,7 @@ Furthermore, you will be able to find information that is not
 available even in the Chilean Stock Exchange.\n
 For more information, do not hesitate to contact us via [GitHub](https://github.com/). \n
 ---
-""")
+"""), lg=12, md=8, sm=4)])
                      ])
 
 def title_spanish():
@@ -45,8 +45,8 @@ def title_spanish():
                     is_open=True,
                     color="danger"
                     ),
-                width=12),
-            dbc.Col(html.H1("Orbis Investments Screener"), width=9),
+                lg=12, md=8, sm=4),
+            dbc.Col(html.H1("Orbis Investments Screener"), lg=9, md=6, sm=3),
             dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
             dbc.Col(dcc.Link("English", href="/"), width="auto")]),
