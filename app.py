@@ -30,7 +30,7 @@ from pages import (title,
 
 external_stylesheets = ["https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"]
 
-with open("/assets/usr.json", "r") as file:
+with open("usr.json", "r") as file:
     USER_PASS = json.load(file)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
