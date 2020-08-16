@@ -69,6 +69,8 @@ PAGE_SIZE = 25
 
 def tabs_layout():
     return html.Div([
+        dbc.Row([
+            dbc.Col(
     dcc.Tabs(id="tabs", value='tab-1', children=[
         dcc.Tab(label='Historical Graph', value='tab-1', children=[
             get_ticker_graph()]),
@@ -81,25 +83,29 @@ def tabs_layout():
              colors={
                  "border": '#d6d6d6',
                  "primary": 'green',
-                 "background": '#f9f9f9', }),
+                 "background": '#f9f9f9'}),
+            lg=12, md=8, sm=4)]),
     html.Div(id='tabs-content')
 ])
 
 def tabs_layout_spanish():
     return html.Div([
+        dbc.Row([
+            dbc.Col(
     dcc.Tabs(id="tabs", value='tab-1', children=[
         dcc.Tab(label='Gráfico Histórico', value='tab-1', children=[
-            get_ticker_graph_spanish()]),
+            get_ticker_graph()]),
         dcc.Tab(label='Análisis de Acciones', value='tab-2', children=[
-            get_stock_table_spanish()]),
-        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info_spanish()]),
+            get_stock_table()]),
+        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info()]),
         dcc.Tab(label="Novedades", value="tab-4", children=[
-            whats_new.info_spanish()])
+            whats_new.info()])
     ],
              colors={
                  "border": '#d6d6d6',
                  "primary": 'green',
-                 "background": '#f9f9f9', }),
+                 "background": '#f9f9f9'}),
+            lg=12, md=8, sm=4)]),
     html.Div(id='tabs-content')
 ])
 

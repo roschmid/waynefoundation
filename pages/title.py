@@ -47,11 +47,11 @@ def title_spanish():
                     ),
                 lg=12, md=8, sm=4),
             dbc.Col(html.H1("Orbis Investments Screener"), lg=9, md=6, sm=3),
-            dbc.Col(dcc.Link("Español", href="/page-1"), width="auto"),
+            dbc.Col(dcc.Link("Español", href="/spanish"), width="auto"),
             dbc.Col(html.P("/"), width="auto"),
-            dbc.Col(dcc.Link("English", href="/"), width="auto")]),
-                     dcc.Markdown("---"),
-                     dcc.Markdown("""
+            dbc.Col(dcc.Link("English", href="/"), width="auto"),
+            dbc.Col(dcc.Markdown("---"), lg=12, md=8, sm=4),
+            dbc.Col(dcc.Markdown("""
 Bienvenido al `Orbis Screener` ("OS"), creado por Rafael Schmidt.\n
 > **¿Qué es el OS?**\n
 El OS es la herramienta que te permitirá analizar y preparar tu portafolio
@@ -62,5 +62,5 @@ razón precio-utilidad, entre otros.\n
 Asimismo, podrás encontrar información valiosa que no se encuentra disponible en ninguna otra parte.\n
 Para más información, no dudes en contactarnos vía [GitHub](https://github.com/). \n
 ---
-""")
+"""), lg=12, md=8, sm=4)])
                      ])
