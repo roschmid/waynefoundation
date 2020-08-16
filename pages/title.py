@@ -20,7 +20,7 @@ Orbis Investments provides historical data on all of the stocks in the Chilean
 market, such as price, dividend yield, PE ratio, among others.\n
 Furthermore, you will be able to find information that is not
 available even in the Chilean Stock Exchange.\n
-For more information, do not hesitate to contact us via [GitHub](https://github.com/roschmid). \n
+For more information, do not hesitate to contact us via [GitHub](https://github.com/). \n
 ---
 """)
                      ])
@@ -42,7 +42,7 @@ Orbis Investments te provee información histórica de la totalidad de las
 acciones del mercado chileno, tales como precio, retorno sobre dividendos,
 razón precio-utilidad, entre otros.\n
 Asimismo, podrás encontrar información valiosa que no se encuentra disponible en ninguna otra parte.\n
-Para más información, no dudes en contactarnos vía [GitHub](https://github.com/roschmid). \n
+Para más información, no dudes en contactarnos vía [GitHub](https://github.com/). \n
 ---
 """)
                      ])
