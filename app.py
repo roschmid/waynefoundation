@@ -96,12 +96,12 @@ def tabs_layout_spanish():
             dbc.Col(
     dcc.Tabs(id="tabs", value='tab-1', children=[
         dcc.Tab(label='Gráfico Histórico', value='tab-1', children=[
-            get_ticker_graph()]),
+            get_ticker_graph_spanish()]),
         dcc.Tab(label='Análisis de Acciones', value='tab-2', children=[
-            get_stock_table()]),
-        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info()]),
+            get_stock_table_spanish()]),
+        dcc.Tab(label="Academia Orbis", value="tab-3", children=[orbis_academy.info_spanish()]),
         dcc.Tab(label="Novedades", value="tab-4", children=[
-            whats_new.info()])
+            whats_new.info_spanish()])
     ],
              colors={
                  "border": '#d6d6d6',
