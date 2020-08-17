@@ -8,6 +8,8 @@ def info():
     dcc.Markdown("""
 ---
 
+- 16/08/2020: Completed the Spanish/English translation. Better mobile view.
+
 - 14/08/2020: Added the **Spanish version** with functionality.
 
 - 13/08/2020: Improved the download link. You can now download the filtered data as you please.
@@ -35,6 +37,8 @@ def info_spanish():
     html.H2("Novedades"),
     dcc.Markdown("""
 ---
+
+- 16/08/2020: Fin de la traducción inglés/español. Se mejora la vista de celulares.
 
 - 14/08/2020: **Sección en español** y funcional.
 
