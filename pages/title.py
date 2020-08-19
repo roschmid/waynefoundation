@@ -8,7 +8,7 @@ def title():
         dbc.Row([
             dbc.Col(
                 dbc.Alert(
-                    "Closed Beta Test",
+                    "Closed Beta Test - Project Complete",
                     id="alert-fade",
                     dismissable=True,
                     is_open=True,
@@ -39,7 +39,7 @@ def title_spanish():
         dbc.Row([
             dbc.Col(
                 dbc.Alert(
-                    "Closed Beta Test",
+                    "Closed Beta Test - Proyecto Completado",
                     id="alert-fade",
                     dismissable=True,
                     is_open=True,
