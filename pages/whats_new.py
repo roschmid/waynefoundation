@@ -8,6 +8,8 @@ def info():
     dcc.Markdown("""
 ---
 
+- 19/08/2020: Project complete. **Going live!**
+
 - 16/08/2020: Completed the Spanish/English translation. Better mobile view.
 
 - 14/08/2020: Added the **Spanish version** with functionality.
@@ -37,6 +39,8 @@ def info_spanish():
     html.H2("Novedades"),
     dcc.Markdown("""
 ---
+
+- 19/08/2020: Proyecto completado. **En vivo!**
 
 - 16/08/2020: Fin de la traducción inglés/español. Se mejora la vista de celulares.
 
